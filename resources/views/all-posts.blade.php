@@ -46,12 +46,10 @@
                 <td>{{$post['posted_by']}}</td>
                 <td>{{$post['created_at']}}</td>
                 <td>
-                    <!-- <a href="#" class="btn btn-info">View</a>
+                    <a href="#" class="btn btn-info">View</a>
                     <a href="#" class="btn btn-primary">Edit</a>
-                    <a href="#" class="btn btn-danger">Delete</a> -->
-                    <x-button type="primary">View</x-button>
-                    <x-button type="secondary">Edit</x-button>
-                    <x-button type="danger">Delete</x-button>
+                    <a href="#" class="btn btn-danger">Delete</a>
+                    
                 </td>
             </tr>
         @endforeach
