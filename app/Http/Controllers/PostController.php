@@ -36,7 +36,6 @@ class PostController extends Controller
 
     public function show($id)
     {
-//        dd($id);
         $post =  [
             'id' => 3,
             'title' => 'Javascript',
@@ -45,7 +44,6 @@ class PostController extends Controller
             'description' => 'hello description',
         ];
 
-//        dd($post);
 
         return view('post.show', ['post' => $post]);
     }
