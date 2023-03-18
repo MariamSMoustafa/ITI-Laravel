@@ -64,4 +64,8 @@ class PostController extends Controller
         ];
         return view('post.edit',['post' => $post]);
     }
+
+    public function store(){
+        return redirect()->route('posts.index');
+    }
 }
