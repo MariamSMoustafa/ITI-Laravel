@@ -11,11 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('tt_tables', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->timestamps();
         });
-    } 
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('tt_tables');
+    }
 };

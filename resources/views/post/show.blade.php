@@ -39,7 +39,7 @@
             </div>
 
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">Add Comment</button>
+                <button type="submit" class="btn btn-primary" style=" margin-top:10px; margin-bottom:10px;">Add Comment</button>
             </div>
         </form>
         @if(isset($comments))
@@ -67,7 +67,7 @@
         <form method="POST" action="{{ route('comments.destroy', $comment->id) }}">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete</button>
+            <button type="submit" class="btn btn-danger" style=" margin-top:10px">Delete</button>
         </form>
     </div>
 
@@ -75,10 +75,10 @@
         @csrf
         @method('PUT')
         <div class="form-group">
-            <label for="body">Comment</label>
-            <textarea class="form-control" id="body" name="body" rows="3">{{$comment->body}}</textarea>
+            
+            <textarea class="form-control" id="body" name="body" rows="3" style="margin-left: 16px; width:1260px">{{$comment->body}}</textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="submit" class="btn btn-primary" style="margin-left: 16px; margin-top:10px">Update</button>
     </form>
     @endforeach
     @else
