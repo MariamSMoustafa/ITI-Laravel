@@ -5,19 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostName;
 
 class PostController extends Controller
 {
-    public function index()
+                             ////////Index////////
+     public function index()
     {
         //query to select * from posts
+
         // $allPosts = Post::all();
+
         //To paginate
         $allPosts = Post::paginate(10);
        return view('post.index',['posts' => $allPosts]);
     }
 
 
+                             ////////Show////////
     public function show($id)
     {
         $post = Post::find($id); //select * from posts where id=1 limit 1; //ِawel result
@@ -30,13 +36,18 @@ class PostController extends Controller
         return view('post.show', ['post' => $post,'comments'=>$comments]);
     }
 
+
+                            ////////Create////////
     public function create(){
-         $users = User::all();
+        $users = User::all();
          
          //dd($users);
         return view('post.create',['users' => $users]);
     }
 
+
+
+                            ////////Edit////////
     public function edit($id){
 
         $post = Post::find($id);
@@ -44,17 +55,34 @@ class PostController extends Controller
         return view('post.edit',['post' => $post,'users' =>$users]);
     }
 
-    public function update($id, Request $request)
+
+                            ////////Update////////
+    public function update($id, UpdatePostName $request)
     {
-        $post = Post::find($id);
-        $post->title = request()->title;
-        $post->description = request()->description;
-        $post->user_id = request()->post_creator;
+        $post = Post::findOrFail($id);
+        $post->title = $request->input('title');
+        $post->description = $request->input('description');
+        $post->user_id = $request->input('post_creator');
+
         $post->save();
         return redirect()->route('posts.index');
     }
 
-    public function store(Request $request){
+
+                            ////////Store////////
+    public function store(StorePostRequest $request){
+
+        //Validation There is another way by class i can call in any place so i'll make request 
+
+        // $request->validate([
+            // 'title' =>['required', 'min:3'],
+            // 'description' =>['required','min:5']
+        // ],[
+        //       'title.required'=>'my custom message',
+        //      'title.min' => 'minimum custom message'
+        // ]);
+        
+
         $title = request()->title;
         $description = request()->description;
         $postCreator =request()->post_creator;
@@ -72,6 +100,8 @@ class PostController extends Controller
 
     }
 
+
+                            ////////Destroy////////
     public function destroy($id)
     {
         $post = Post::find($id);
