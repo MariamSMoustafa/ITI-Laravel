@@ -20,7 +20,7 @@ class PostController extends Controller
         // $allPosts = Post::all();
 
         //To paginate
-        $allPosts = Post::paginate(10);
+        $allPosts = Post::with('user')->paginate(10);
        return view('post.index',['posts' => $allPosts]);
     }
 
@@ -48,7 +48,6 @@ class PostController extends Controller
     }
 
 
-
                             ////////Edit////////
     public function edit($id){
 
@@ -73,7 +72,6 @@ class PostController extends Controller
                 $filename = $image->getClientOriginalName();
                 $path = Storage::disk("public")->putFileAs('posts', $image, $filename);
                 $post->image = $path;
-                
         }
 
         $post->save();

@@ -37,8 +37,6 @@
                     <a href="{{route('posts.edit',$post['id'])}}" class="btn btn-primary">Edit</a>
                     <a class="btn btn-danger" href="{{route('posts.destroy',$post['id'])}}" >Delete</a> -->
                     
-                   
-                   
                                                   <!-- Bonus -->
                     <x-button type="primary" :href="route('posts.show',$post['id'])">View</x-button>
                     <x-button type="secondary" :href="route('posts.edit',$post['id'])">Edit</x-button>

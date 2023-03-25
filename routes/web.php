@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use Laravel\Socialite\Facades\Socialite;
 
-use App\Http\Controllers\TestController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,3 +52,48 @@ Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('c
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+ 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('github')->redirect();
+});
+ 
+Route::get('/auth/callback', function () {
+
+    $githubUser = Socialite::driver('github')->user();
+    dd($githubUser);
+    $user = User::updateOrCreate([
+        'github_id' => $githubUser->id,
+    ], [
+        'name' => $githubUser->name,
+        'email' => $githubUser->email,
+        'github_token' => $githubUser->token,
+        'github_refresh_token' => $githubUser->refreshToken,
+    ]);
+ 
+    Auth::login($githubUser);
+ 
+    dd($user);
+    return redirect()->route('posts.index');
+    
+
+});
+
+// Route::get('/auth/google', function () {
+//     return Socialite::driver('google')->redirect();
+// });
+// Route::get('/auth/google/callback', function () {
+//     $googleUser = Socialite::driver('google')->user();
+//     $user = User::updateOrCreate(
+//         ['email' => $googleUser->email],
+//         [
+//             'name' => $googleUser->name,
+//             'password' => Hash::make(Str::random(24)), // generate a random password
+//             'google_id' => $googleUser->id,
+//             'google_token' => $googleUser->token,
+//             'google_refresh_token' => $googleUser->refreshToken,
+//         ]
+//     );
+//     Auth::login($user);
+//     return redirect()->route('posts.index');
+// });
+
