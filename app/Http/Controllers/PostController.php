@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostName;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -63,6 +65,16 @@ class PostController extends Controller
         $post->title = $request->input('title');
         $post->description = $request->input('description');
         $post->user_id = $request->input('post_creator');
+        if ($request->hasFile('image')) {
+            if ($post->image) {
+                Storage::disk("public")->delete($post->image);
+            }
+                $image = $request->file('image');
+                $filename = $image->getClientOriginalName();
+                $path = Storage::disk("public")->putFileAs('posts', $image, $filename);
+                $post->image = $path;
+                
+        }
 
         $post->save();
         return redirect()->route('posts.index');
@@ -72,29 +84,38 @@ class PostController extends Controller
                             ////////Store////////
     public function store(StorePostRequest $request){
 
-        //Validation There is another way by class i can call in any place so i'll make request 
-
-        // $request->validate([
-            // 'title' =>['required', 'min:3'],
-            // 'description' =>['required','min:5']
-        // ],[
-        //       'title.required'=>'my custom message',
-        //      'title.min' => 'minimum custom message'
-        // ]);
-        
-
         $title = request()->title;
         $description = request()->description;
         $postCreator =request()->post_creator;
+        $slug =request()->slug;
+        
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $filename = $image->getClientOriginalName();
+            $path = Storage::disk("public")->putFileAs('posts', $image, $filename);
+
+            Post::create([
+
+                'title' => $title,
+                'description' => $description,
+                'user_id' => $postCreator,
+                'slug' =>$slug,
+                'image'=>$path
+    
+            ]);
+        }else{
+            Post::create([
+
+                'title' => $title,
+                'description' => $description,
+                'user_id' => $postCreator,
+                'slug' =>$slug,
+    
+            ]);
+        }
 
         //insert the form data in database
-        Post::create([
 
-            'title' => $title,
-            'description' => $description,
-            'user_id' => $postCreator
-
-        ]);
 
         return to_route('posts.index');
 

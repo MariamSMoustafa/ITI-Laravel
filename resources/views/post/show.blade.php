@@ -10,6 +10,9 @@
         <div class="card-body">
             <h5 class="card-title">Title: {{$post['title']}}</h5>
             <p class="card-text">Description: {{$post['description']}}</p>
+            @if($post->image !=null)
+            <img src="{{'/'.'storage/'.$post->image}}" width="250" alt=""/>
+            @endif
         </div>
     </div>
 
