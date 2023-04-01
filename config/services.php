@@ -36,6 +36,11 @@ return [
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => 'http://localhost:8000/auth/callback',
     ],
+    'stripe' =>[
+        'model' => App\User::class,
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET')
+    ],
 
     // 'google' => [
     //     'client_id' => env('GOOGLE_CLIENT_ID'),

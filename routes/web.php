@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PaymentController;
 use Laravel\Socialite\Facades\Socialite;
 
 use App\Models\User;
@@ -77,6 +79,8 @@ Route::get('/auth/callback', function () {
     
 
 });
+
+Route::post('single-charge',[HomeController::class,'singleCharge'])->name('single-charge');
 
 // Route::get('/auth/google', function () {
 //     return Socialite::driver('google')->redirect();
